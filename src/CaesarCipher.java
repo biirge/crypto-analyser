@@ -1,7 +1,4 @@
-import java.lang.reflect.Array;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 
 public class CaesarCipher {
 
@@ -24,8 +21,26 @@ public class CaesarCipher {
 
     }
 
+    private void returnCase(char[] origin, char[] text) {
+        for (int i = 0; i < origin.length; i++) {
+            if (Character.isUpperCase(origin[i])) {
+                text[i] = Character.toUpperCase(text[i]);
+            }
+        }
+    }
+
+    private void ignoreCase(char[] text) {
+        for (int i = 0; i < text.length; i++) {
+            if (Character.isUpperCase(text[i])) {
+                text[i] = Character.toLowerCase(text[i]);
+            }
+        }
+    }
+
     public String encrypt(String message) {
         char[] messageCharArray = message.toCharArray();
+        char[] messageCharArrayCopy = Arrays.copyOf(messageCharArray, messageCharArray.length);
+        ignoreCase(messageCharArray);
         char[] answer = new char[messageCharArray.length];
         int border = language.length-key;
 
@@ -35,11 +50,14 @@ public class CaesarCipher {
             else {newKey += key;}
             answer[i] = language[newKey];
         }
+        returnCase(messageCharArrayCopy, answer);
         return String.valueOf(answer);
     }
 
     public String decrypt(String message) {
         char[] messageCharArray = message.toCharArray();
+        char[] messageCharArrayCopy = Arrays.copyOf(messageCharArray, messageCharArray.length);
+        ignoreCase(messageCharArray);
         char[] answer = new char[messageCharArray.length];
         int border = key;
 
@@ -52,6 +70,7 @@ public class CaesarCipher {
             answer[i] = language[newKey];
 
         }
+        returnCase(messageCharArrayCopy, answer);
         return String.valueOf(answer);
     }
 
